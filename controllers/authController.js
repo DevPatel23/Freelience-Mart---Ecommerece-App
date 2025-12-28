@@ -262,6 +262,23 @@ export const adminAllOrdersController = async (req, res) => {
   }
 };
 
+export const adminAllUsersController = async (req, res) => {
+  try {
+    const users = await userModel
+      .find()
+      .populate("name", "email")
+      .sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while getting all users",
+      error,
+    });
+  }
+};
+
 export const orderStatusController = async (req, res) => {
   try {
     const { orderId } = req.params;
